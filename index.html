@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chadrack Sumuna Temo - Analyste Programmeur & Concepteur SI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#070a13',
+                        cardBg: '#0f172a',
+                        accentBlue: '#2563eb',
+                        accentCyan: '#06b6d4',
+                        accentPurple: '#8b5cf6',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #070a13;
+            color: #f8fafc;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.7;
+        }
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+        }
+        .glass-panel:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #06b6d4 50%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #070a13;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-accentCyan selection:text-darkBg custom-scrollbar">
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="content-layer">
+        <!-- Navigation Header -->
+        <header class="fixed top-0 left-0 w-full z-50 bg-[#070a13]/85 backdrop-blur-xl border-b border-slate-800/80 transition-all duration-300" id="navbar">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                <a href="#" class="text-xl font-extrabold tracking-wider flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-accentBlue to-accentCyan flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                        <i class="fa-solid fa-cubes"></i>
+                    </div>
+                    <span>CHADRACK<span class="text-accentCyan">.SI</span></span>
+                </a>
+                
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                    <a href="#about" class="hover:text-accentCyan transition-colors">À propos</a>
+                    <a href="#skills" class="hover:text-accentCyan transition-colors">Compétences & Technologies</a>
+                    <a href="#languages" class="hover:text-accentCyan transition-colors">Langues</a>
+                    <a href="#architecture" class="hover:text-accentCyan transition-colors">Modélisation SI</a>
+                    <a href="#designs" class="hover:text-accentCyan transition-colors">Conceptions Design</a>
+                    <a href="#projects" class="hover:text-accentCyan transition-colors">Projets</a>
+                    <a href="#contact" class="hover:text-accentCyan transition-colors">Contact</a>
+                </nav>
+
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="https://wa.me/243857673284" target="_blank" class="px-5 py-2.5 text-sm font-semibold rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white transition shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp Direct
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="menu-btn" class="md:hidden text-slate-300 hover:text-white text-2xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden md:hidden bg-slate-900/95 border-b border-slate-800 px-6 py-4 space-y-3">
+                <a href="#about" class="block text-slate-300 hover:text-accentCyan py-2">À propos</a>
+                <a href="#skills" class="block text-slate-300 hover:text-accentCyan py-2">Compétences</a>
+                <a href="#architecture" class="block text-slate-300 hover:text-accentCyan py-2">Modélisation SI</a>
+                <a href="#designs" class="block text-slate-300 hover:text-accentCyan py-2">Conceptions Design</a>
+                <a href="#projects" class="block text-slate-300 hover:text-accentCyan py-2">Projets</a>
+                <a href="#contact" class="block text-slate-300 hover:text-accentCyan py-2">Contact</a>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center justify-center pt-32 pb-20 px-6 relative">
+            <div class="max-w-5xl mx-auto text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 border border-slate-700/80 text-accentCyan text-xs font-semibold mb-8 uppercase tracking-widest shadow-xl shadow-cyan-500/5">
+                    <i class="fa-solid fa-terminal animate-pulse"></i> Développeur Junior | Analyste Programmeur & Concepteur
+                </div>
+                
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-tight">
+                    Chadrack Sumuna Temo
+                </h1>
+                
+                <p class="text-lg md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed font-light">
+                    Analyste programmeur et concepteur de systèmes d'information, développeur junior passionné par la création d'applications web, l'ingénierie logicielle et le traitement des données.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#projects" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-accentBlue hover:bg-blue-600 font-semibold transition shadow-xl shadow-blue-500/25 flex items-center justify-center gap-3 text-white">
+                        <span>Voir mes projets</span>
+                        <i class="fa-solid fa-arrow-down text-xs"></i>
+                    </a>
+                    <a href="#skills" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel hover:bg-slate-800/80 font-semibold transition flex items-center justify-center gap-3 text-slate-200">
+                        <i class="fa-solid fa-chart-line text-accentCyan"></i>
+                        <span>Mes compétences</span>
+                    </a>
+                </div>
+
+                <!-- Stats Bar -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20 max-w-4xl mx-auto">
+                    <div class="glass-panel p-6 rounded-2xl text-center">
+                        <div class="text-3xl font-bold gradient-text mb-1">Bac+5</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider">Computer Science</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl text-center">
+                        <div class="text-3xl font-bold gradient-text mb-1">98%</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider">WinDev / WLangage</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl text-center">
+                        <div class="text-3xl font-bold gradient-text mb-1">96%</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider">HTML & Web Dev</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl text-center">
+                        <div class="text-3xl font-bold gradient-text mb-1">85%</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider">CSS & Design Tools</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-24 px-6 bg-slate-900/40 border-t border-slate-800/50">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-accentCyan font-mono text-lg font-bold">02.</span>
+                    <h2 class="text-2xl md:text-4xl font-bold">Compétences & Technologies</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <!-- Développement Web & Frontend -->
+                    <div class="glass-panel p-8 rounded-2xl space-y-6">
+                        <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+                            <i class="fa-solid fa-code text-accentCyan text-2xl"></i>
+                            <h3 class="text-xl font-bold">Développement Web & UI</h3>
+                        </div>
+
+                        <!-- HTML -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>HTML5</span>
+                                <span class="text-accentCyan font-mono">96%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-1000" style="width: 96%"></div>
+                            </div>
+                        </div>
+
+                        <!-- CSS -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>CSS3 & Frameworks (Tailwind)</span>
+                                <span class="text-accentCyan font-mono">85%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-1000" style="width: 85%"></div>
+                            </div>
+                        </div>
+
+                        <!-- JavaScript -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>JavaScript (JS)</span>
+                                <span class="text-accentCyan font-mono">63%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-1000" style="width: 63%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logiciels, ERP & Backend Spécialisé -->
+                    <div class="glass-panel p-8 rounded-2xl space-y-6">
+                        <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+                            <i class="fa-solid fa-laptop-code text-accentBlue text-2xl"></i>
+                            <h3 class="text-xl font-bold">Génie Logiciel & WinDev</h3>
+                        </div>
+
+                        <!-- WinDev -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>WinDev / WLangage</span>
+                                <span class="text-accentBlue font-mono">98%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full transition-all duration-1000" style="width: 98%"></div>
+                            </div>
+                        </div>
+
+                        <!-- PHP -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>PHP</span>
+                                <span class="text-accentBlue font-mono">40%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full transition-all duration-1000" style="width: 40%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Java -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>Java</span>
+                                <span class="text-accentBlue font-mono">15%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full transition-all duration-1000" style="width: 15%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Python, Frameworks & Data/IA -->
+                    <div class="glass-panel p-8 rounded-2xl space-y-6">
+                        <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+                            <i class="fa-brands fa-python text-emerald-400 text-2xl"></i>
+                            <h3 class="text-xl font-bold">Python, Data & Scripts</h3>
+                        </div>
+
+                        <!-- Python -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>Python Core</span>
+                                <span class="text-emerald-400 font-mono">45%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-1000" style="width: 45%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Data Science & IA -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>Data Science (Pandas, NumPy, etc.)</span>
+                                <span class="text-emerald-400 font-mono">40%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-1000" style="width: 40%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Flask -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>Flask</span>
+                                <span class="text-emerald-400 font-mono">35%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-1000" style="width: 35%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Django -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>Django</span>
+                                <span class="text-emerald-400 font-mono">10%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-1000" style="width: 10%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bureautique & Design Graphique -->
+                    <div class="glass-panel p-8 rounded-2xl space-y-6">
+                        <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+                            <i class="fa-solid fa-palette text-purple-400 text-2xl"></i>
+                            <h3 class="text-xl font-bold">Bureautique & Design</h3>
+                        </div>
+
+                        <!-- Suite Office -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>Suite Microsoft Office</span>
+                                <span class="text-purple-400 font-mono">96%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-purple-500 to-indigo-400 rounded-full transition-all duration-1000" style="width: 96%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Photoshop, Canva & Design Tools -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>Design (Photoshop, Canva & Outils Graphiques)</span>
+                                <span class="text-purple-400 font-mono">85%</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                                <div class="h-full bg-gradient-to-r from-purple-500 to-indigo-400 rounded-full transition-all duration-1000" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="languages" class="py-20 px-6 border-t border-slate-800/50">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-accentCyan font-mono text-lg font-bold">03.</span>
+                    <h2 class="text-2xl md:text-4xl font-bold">Maitrise des Langues</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <!-- Français -->
+                    <div class="glass-panel p-6 rounded-2xl text-center space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-blue-500/10 flex items-center justify-center text-accentBlue font-bold text-lg border border-blue-500/30">
+                            FR
+                        </div>
+                        <h4 class="font-bold text-lg">Français</h4>
+                        <div class="text-xs text-accentCyan font-semibold bg-cyan-500/10 py-1 px-3 rounded-full inline-block">Natif / C2</div>
+                    </div>
+
+                    <!-- Lingala -->
+                    <div class="glass-panel p-6 rounded-2xl text-center space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold text-lg border border-emerald-500/30">
+                            LN
+                        </div>
+                        <h4 class="font-bold text-lg">Lingala</h4>
+                        <div class="text-xs text-emerald-300 font-semibold bg-emerald-500/10 py-1 px-3 rounded-full inline-block">Natif / C2</div>
+                    </div>
+
+                    <!-- Anglais -->
+                    <div class="glass-panel p-6 rounded-2xl text-center space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 font-bold text-lg border border-purple-500/30">
+                            EN
+                        </div>
+                        <h4 class="font-bold text-lg">Anglais</h4>
+                        <div class="text-xs text-purple-300 font-semibold bg-purple-500/10 py-1 px-3 rounded-full inline-block">Intermédiaire / B2</div>
+                    </div>
+
+                    <!-- Italien -->
+                    <div class="glass-panel p-6 rounded-2xl text-center space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400 font-bold text-lg border border-amber-500/30">
+                            IT
+                        </div>
+                        <h4 class="font-bold text-lg">Italien</h4>
+                        <div class="text-xs text-amber-300 font-semibold bg-amber-500/10 py-1 px-3 rounded-full inline-block">Élémentaire / A2</div>
+                    </div>
+
+                    <!-- Portugais -->
+                    <div class="glass-panel p-6 rounded-2xl text-center space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-rose-500/10 flex items-center justify-center text-rose-400 font-bold text-lg border border-rose-500/30">
+                            PT
+                        </div>
+                        <h4 class="font-bold text-lg">Portugais</h4>
+                        <div class="text-xs text-rose-300 font-semibold bg-rose-500/10 py-1 px-3 rounded-full inline-block">Débutant / A1</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" class="py-24 px-6 border-t border-slate-800/50">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-accentCyan font-mono text-lg font-bold">04.</span>
+                    <h2 class="text-2xl md:text-4xl font-bold">Méthodologie de Conception SI</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="glass-panel p-6 rounded-2xl relative">
+                        <div class="text-3xl font-mono text-accentCyan/30 font-bold mb-3">01</div>
+                        <h4 class="text-lg font-bold mb-2">Analyse Fonctionnelle</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Recueil des besoins, analyse des processus et modélisation initiale.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl relative">
+                        <div class="text-3xl font-mono text-accentCyan/30 font-bold mb-3">02</div>
+                        <h4 class="text-lg font-bold mb-2">Modélisation Données</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Conception conceptuelle et logique (Merise MCD/MLD, UML Diagrammes de classes).</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl relative">
+                        <div class="text-3xl font-mono text-accentCyan/30 font-bold mb-3">03</div>
+                        <h4 class="text-lg font-bold mb-2">Programmation</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Implémentation, écriture des scripts de traitement et mise en place de la base de données.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl relative">
+                        <div class="text-3xl font-mono text-accentCyan/30 font-bold mb-3">04</div>
+                        <h4 class="text-lg font-bold mb-2">Interface & Intégration</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Développement des interfaces utilisateur et tests d'intégration applicative.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Conceptions & Design Graphique -->
+        <section id="designs" class="py-24 px-6 bg-slate-900/50 border-t border-slate-800/50">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-accentCyan font-mono text-lg font-bold">05.</span>
+                    <h2 class="text-2xl md:text-4xl font-bold">Conceptions & Design Graphique</h2>
+                </div>
+                
+                <!-- J-drack design Social Integration Banner -->
+                <div class="glass-panel p-8 rounded-2xl mb-12 border-purple-500/40 bg-gradient-to-r from-purple-950/30 via-slate-900/80 to-slate-900/80 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="space-y-2 text-center md:text-left">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold uppercase tracking-wider">
+                            <i class="fa-solid fa-paintbrush animate-spin"></i> Galerie Officielle : J-drack design
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold">Retrouvez toutes mes créations graphiques en direct</h3>
+                        <p class="text-sm text-slate-400 max-w-xl">
+                            Mes affiches, chartes graphiques, identités visuelles et mockups sont publiés et mis à jour régulièrement sur mes pages officielles.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-center gap-3">
+                        <a href="https://facebook.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-blue-600/20 hover:bg-blue-600 border border-blue-500/30 text-blue-300 hover:text-white transition flex items-center gap-2 text-sm font-semibold">
+                            <i class="fa-brands fa-facebook-f"><span>Facebook</span></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-pink-600/20 hover:bg-pink-600 border border-pink-500/30 text-pink-300 hover:text-white transition flex items-center gap-2 text-sm font-semibold">
+                            <i class="fa-brands fa-instagram"><span>Instagram</span></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-sky-600/20 hover:bg-sky-600 border border-sky-500/30 text-sky-300 hover:text-white transition flex items-center gap-2 text-sm font-semibold">
+                            <i class="fa-brands fa-twitter"><span> X </span></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Design Item 1 -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between group border-purple-500/30 hover:border-purple-500/60 transition duration-300">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-purple-400 uppercase tracking-widest bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">Branding & Identité</span>
+                                <span class="text-xs font-mono text-slate-400 flex items-center gap-1"><i class="fa-solid fa-signature text-purple-400"></i> J-drack design</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Charte Graphique d'Entreprise</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Conception complète d'une identité visuelle professionnelle incluant logo vectoriel, déclinaisons typographiques et palette de couleurs.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Adobe Photoshop</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Vectoriel</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design Item 2 -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between group border-purple-500/30 hover:border-purple-500/60 transition duration-300">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-pink-400 uppercase tracking-widest bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/20">Communication Visuelle</span>
+                                <span class="text-xs font-mono text-slate-400 flex items-center gap-1"><i class="fa-solid fa-signature text-pink-400"></i> J-drack design</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Affiches & Flyers Publicitaires</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Création d'affiches promotionnelles percutantes pour des événements institutionnels et commerciaux à fort impact visuel.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Photoshop</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Canva Pro</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design Item 3 -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between group border-purple-500/30 hover:border-purple-500/60 transition duration-300">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-cyan-400 uppercase tracking-widest bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">UI/UX Mockups</span>
+                                <span class="text-xs font-mono text-slate-400 flex items-center gap-1"><i class="fa-solid fa-signature text-cyan-400"></i> J-drack design</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Maquettes & Wireframes d'Apps</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Conception de maquettes d'interfaces utilisateur ergonomiques pour applications web et mobiles avant la phase d'intégration.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">UI Design</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Ergonomie</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-24 px-6 bg-slate-900/40 border-t border-slate-800/50">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-accentCyan font-mono text-lg font-bold">06.</span>
+                    <h2 class="text-2xl md:text-4xl font-bold">Projets Phare & Réalisations</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Projet Soutenance Mémoire Licencié CSI (Machine Learning & Sécurité) -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group border-accentCyan/30 hover:border-accentCyan/60">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Mémoire Bac+5 / CSI</span>
+                                <i class="fa-solid fa-shield-halved text-2xl text-emerald-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Système de Détection d'Intrusion par Injection SQL (IA)</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Projet de fin d'études en Conception des Systèmes d'Information. Modèle intelligent pour analyser et détecter les tentatives d'attaques par injection SQL.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Machine Learning</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Python</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Sécurité SI</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet Personnel GitHub : Le Hub des Jeux TV -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-accentCyan uppercase tracking-widest bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">Projet Web GitHub</span>
+                                <i class="fa-brands fa-github text-2xl text-slate-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Le Hub des Jeux TV</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Plateforme interactive inspirée des jeux télévisés, offrant des mécaniques de jeu fluides et une interface web moderne.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">HTML5</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">CSS3</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">JavaScript</span>
+                            </div>
+                        </div>
+                        <div class="px-8 py-4 bg-slate-900/60 border-t border-slate-800/80">
+                            <a href="https://dracksum.github.io/Le-Hub-des-Jeux-TV/" target="_blank" class="text-accentCyan hover:text-white text-xs font-semibold flex items-center justify-between">
+                                <span>Voir sur GitHub</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Bot Telegram : bot-score-live -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-accentBlue uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Automation & Scripting</span>
+                                <i class="fa-paper-plane fa-solid text-2xl text-accentBlue"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Bot Score Live (Telegram Bot)</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Bot Telegram développé en Python pour diffuser des scores de matchs en temps réel et automatiser des notifications.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Python</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Telegram API</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EduManage Pro -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-purple-400 uppercase tracking-widest bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">ERP Web & IA</span>
+                                <i class="fa-solid fa-graduation-cap text-2xl text-purple-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">EduManage Pro</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Application ERP scolaire web intégrant la gestion des élèves, notes et cours avec suivi des performances scolaire.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">PHP / Ajax</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">MySQL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MultiRent Hub -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">Plateforme Web</span>
+                                <i class="fa-solid fa-building-user text-2xl text-amber-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">MultiRent Hub</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Application web centralisée pour la gestion de contrats de location (biens immobiliers, véhicules et équipements divers).
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">PHP</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">MySQL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vortex Luxe E-Shop Hub -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-rose-400 uppercase tracking-widest bg-rose-500/10 px-3 py-1 rounded-full border border-rose-500/20">E-Commerce React</span>
+                                <i class="fa-solid fa-cart-shopping text-2xl text-rose-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Vortex Luxe E-Shop Hub</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Plateforme E-Commerce moderne offrant un catalogue interactif, panier dynamique et interface réactive.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">React</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Tailwind CSS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivero Lite App -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-teal-400 uppercase tracking-widest bg-teal-500/10 px-3 py-1 rounded-full border border-teal-500/20">Application Web</span>
+                                <i class="fa-solid fa-truck-fast text-2xl text-teal-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Delivero Lite App</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Application de suivi et de gestion de livraisons express avec une interface fluide et responsive.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">React</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Tailwind CSS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Système SIG Localisation Supermarché (PostGIS) -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-sky-400 uppercase tracking-widest bg-sky-500/10 px-3 py-1 rounded-full border border-sky-500/20">Projet Universitaire GIS</span>
+                                <i class="fa-solid fa-map-location-dot text-2xl text-sky-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Géolocalisation de Supermarchés Proches</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Système Web calculant la distance et l'itinéraire vers le supermarché le plus proche de la position de l'utilisateur.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">PostgreSQL / PostGIS</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">PHP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Système bancaire avec Triggers et Procédures Stockées -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Génie Logiciel & BDD</span>
+                                <i class="fa-solid fa-vault text-2xl text-emerald-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Système Bancaire de Transactions</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Solution web bancaire assurant la gestion sécurisée des opérations avec automatisation par triggers et procédures stockées.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">MySQL (Triggers)</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">PHP / JS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Système de Gestion Commandes (Stage Académique) -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Stage Académique</span>
+                                <i class="fa-solid fa-boxes-packing text-2xl text-indigo-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Gestion de Commandes en Ligne</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Application web conçue lors d'un stage pour fluidifier la prise de commandes et la gestion de stock.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">PHP / MySQL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messagerie Instantanée Ajax -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-cyan-400 uppercase tracking-widest bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">Projet Universitaire</span>
+                                <i class="fa-solid fa-comments text-2xl text-cyan-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Mini Messagerie Instantanée Ajax</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Application de tchat en direct utilisant la communication asynchrone Ajax pour échanger des messages sans rechargement.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">JavaScript / Ajax</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">PHP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Application Java Web & MySQL -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-orange-400 uppercase tracking-widest bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">Projet Universitaire</span>
+                                <i class="fa-brands fa-java text-2xl text-orange-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Système de Gestion Java Web</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Plateforme entreprise conçue en Java Web assurant la persistance des données sous architecture MVC.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Java Web</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">MySQL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inscription Étudiants (Python & SQLite) -->
+                    <div class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group">
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-semibold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Mini-Projet Python</span>
+                                <i class="fa-brands fa-python text-2xl text-emerald-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accentCyan transition">Gestion des Inscriptions Étudiants</h3>
+                            <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+                                Application légère de gestion et de validation du cursus et des inscriptions des étudiants reposant sur Python et SQLite.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Python</span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">SQLite</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 px-6 border-t border-slate-800/50 relative">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 border border-slate-700 text-accentCyan text-xs font-semibold mb-4 uppercase tracking-widest shadow-xl">
+                        <i class="fa-solid fa-address-card animate-pulse"></i> Contact & Collaboration
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black mb-4">Parlons de votre projet</h2>
+                    <p class="text-slate-400 max-w-2xl mx-auto leading-relaxed text-base md:text-lg">
+                        Conception de systèmes d'information, développement WinDev, Web ou Python, je suis à votre disposition.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <!-- E-mails Card -->
+                    <div class="glass-panel p-8 rounded-2xl space-y-6 hover:border-blue-500/40 transition">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-accentBlue text-xl border border-blue-500/20">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold">Adresses E-mail Directes</h3>
+                                <p class="text-xs text-slate-400">Cliquez pour envoyer directement un e-mail</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3 pt-2 text-sm">
+                            <a href="mailto:chadracsumuna@gmail.com" class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/60 hover:bg-blue-600/20 border border-slate-800 hover:border-blue-500/40 text-slate-200 hover:text-white transition">
+                                <i class="fa-solid fa-paper-plane text-accentCyan"></i>
+                                <span class="font-mono text-xs md:text-sm truncate">chadracsumuna@gmail.com</span>
+                            </a>
+                            <a href="mailto:chadracsumuna@proton.me" class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/60 hover:bg-purple-600/20 border border-slate-800 hover:border-purple-500/40 text-slate-200 hover:text-white transition">
+                                <i class="fa-solid fa-shield-halved text-purple-400"></i>
+                                <span class="font-mono text-xs md:text-sm truncate">chadracsumuna@proton.me</span>
+                            </a>
+                            <a href="mailto:chadracsumuna@outlook.com" class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/60 hover:bg-blue-600/20 border border-slate-800 hover:border-blue-500/40 text-slate-200 hover:text-white transition">
+                                <i class="fa-solid fa-envelope text-blue-400"></i>
+                                <span class="font-mono text-xs md:text-sm truncate">chadracsumuna@outlook.com</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Téléphone & WhatsApp Card -->
+                    <div class="glass-panel p-8 rounded-2xl space-y-6 hover:border-emerald-500/40 transition">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-xl border border-emerald-500/20">
+                                <i class="fa-solid fa-phone-volume"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold">Lignes Directes & WhatsApp</h3>
+                                <p class="text-xs text-slate-400">Appels professionnels et messagerie instantanée</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3 pt-2 text-sm">
+                            <a href="https://wa.me/243857673284" target="_blank" class="flex items-center justify-between p-3.5 rounded-xl bg-emerald-950/30 hover:bg-emerald-900/40 border border-emerald-800/50 text-emerald-300 font-semibold transition shadow-lg shadow-emerald-950/50">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-brands fa-whatsapp text-emerald-400 text-xl"></i>
+                                    <span class="font-mono text-sm">+243 85 76 73 284</span>
+                                </div>
+                                <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30">WhatsApp</span>
+                            </a>
+                            <a href="https://wa.me/243833881584" target="_blank" class="flex items-center justify-between p-3.5 rounded-xl bg-emerald-950/30 hover:bg-emerald-900/40 border border-emerald-800/50 text-emerald-300 font-semibold transition shadow-lg shadow-emerald-950/50">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-brands fa-whatsapp text-emerald-400 text-xl"></i>
+                                    <span class="font-mono text-sm">+243 83 38 81 054</span>
+                                </div>
+                                <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30">WhatsApp</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Links Grid -->
+                <div class="glass-panel p-8 rounded-2xl max-w-3xl mx-auto space-y-6 text-center border-accentCyan/20">
+                    <h3 class="text-sm font-mono text-accentCyan uppercase tracking-widest">Réseaux Sociaux & Profils Web</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <a href="https://www.linkedin.com/search/results/all/?keywords=Chadrack%20TEMO" target="_blank" class="p-4 rounded-xl bg-slate-900/80 hover:bg-blue-600 text-slate-300 hover:text-white transition flex flex-col items-center justify-center gap-2 border border-slate-800 group">
+                            <i class="fa-brands fa-linkedin-in text-2xl group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs font-semibold">Chadrack TEMO</span>
+                        </a>
+                        <a href="https://github.com/DrackSum" target="_blank" class="p-4 rounded-xl bg-slate-900/80 hover:bg-slate-700 text-slate-300 hover:text-white transition flex flex-col items-center justify-center gap-2 border border-slate-800 group">
+                            <i class="fa-brands fa-github text-2xl group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs font-semibold">DrackSum</span>
+                        </a>
+                        <a href="https://facebook.com" target="_blank" class="p-4 rounded-xl bg-slate-900/80 hover:bg-blue-700 text-slate-300 hover:text-white transition flex flex-col items-center justify-center gap-2 border border-slate-800 group">
+                            <i class="fa-brands fa-facebook-f text-2xl group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs font-semibold">Drack Sum</span>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="p-4 rounded-xl bg-slate-900/80 hover:bg-pink-600 text-slate-300 hover:text-white transition flex flex-col items-center justify-center gap-2 border border-slate-800 group">
+                            <i class="fa-brands fa-instagram text-2xl group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs font-semibold">Drack Sum</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 px-6 border-t border-slate-800/80 text-center text-xs text-slate-500">
+            <p>© 2026 Chadrack Sumuna Temo. Analyste Programmeur & Concepteur. Tous droits réservés.</p>
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        let mouse = { x: null, y: null, radius: 180 };
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Particles configuration representing data nodes in an Information System
+        const particleCount = Math.min(width > 768 ? 70 : 35, 90);
+        const particles = [];
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 1.0,
+                vy: (Math.random() - 0.5) * 1.0,
+                radius: Math.random() * 2 + 1.2
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+                if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(6, 182, 212, 0.8)';
+                ctx.fill();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.Y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 140) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(37, 99, 235, ${0.18 * (1 - dist / 140)})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+
+                if (mouse.x !== null && mouse.y !== null) {
+                    let mdx = p.x - mouse.x;
+                    let mdy = p.y - mouse.y;
+                    let mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+
+                    if (mdist < mouse.radius) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.strokeStyle = `rgba(6, 182, 212, ${0.35 * (1 - mdist / mouse.radius)})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
